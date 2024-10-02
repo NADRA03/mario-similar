@@ -1,6 +1,6 @@
 import { loadImages, loadSounds, getAssets } from './loader.js';
 let score = 0;
-let level = 3; /////////////////////////////////////choose level to code///////////////////////////////////////
+let level = 0; /////////////////////////////////////choose level to code///////////////////////////////////////
 let lives = 3; 
 let direction = "+";
 let projectiles = [];
@@ -46,8 +46,13 @@ loadSounds();
 
 
 
-
-
+///////////////////////Background Sound//////////////////////////////
+function playBackgroundSound() {
+    const bgMusic = assets.sounds.gameSound;
+    bgMusic.loop = true;  // Make the music loop continuously
+    bgMusic.volume = 0.5; // Adjust the volume (50% in this case)
+    bgMusic.play();       // Start the music
+}
 
 
 /////////////////////////////Block///////////////////////////////////
@@ -353,6 +358,7 @@ function update() {
         if (canMoveRight ) {
             if (mario.x >= gameLength - mario.width - 500) {
                 level++;
+                assets.sounds.win.play();
                 resetGame();
             }
             document.getElementById('mario').style.backgroundImage = "url('../assets/images/hero.gif')";
@@ -454,6 +460,7 @@ function checkEnemyCollision() {
                 alert("Game Over! Returning to level 1.");
                 level = 0;
                 lives = 3;
+                score = 0;
                 resetGame();
             } else {
                 mario.x = 0;
@@ -496,6 +503,7 @@ function gameLoop() {
     checkCoinCollection(); 
     update();
     checkEnemyCollision();
+    playBackgroundSound();
     requestAnimationFrame(gameLoop);
 }
 
@@ -556,6 +564,7 @@ function checkCoinCollection() {
             mario.x < coin.x + coin.width &&
             mario.y + mario.height > coin.y &&
             mario.y < coin.y + coin.height) {
+            assets.sounds.coin.play();
             score++;
             coins.splice(index, 1); 
             coinElements[index].remove(); // Remove coin element from the DOM

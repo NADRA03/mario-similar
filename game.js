@@ -1,14 +1,21 @@
 import { loadImages, loadSounds, getAssets } from './loader.js';
 let score = 0;
-let level = 2; /////////////////////////////////////choose level to code///////////////////////////////////////
+let level = 0; /////////////////////////////////////choose level to code///////////////////////////////////////
 let lives = 3; 
 let direction = "+";
 let projectiles = [];
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
-let cameraOffset = 0; 
-canvas.width = 800;
-canvas.height = 600;
+let cameraOffset = 0;
+
+// ensure that the game take the whole width
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+
+resizeCanvas();
+
 const marioElement = document.getElementById('mario');
 const enemyElements = [];
 let coins = [];
@@ -578,6 +585,100 @@ function updateCoins() {
 ///////////////////////level designing/////////////////////////
 function loadLevel() {
     if (level === 0) {
+        gameLength = 8000;
+    
+        const startX = 1000;
+        const startY = 500;
+        const blockWidth = 170;
+        const blockHeight = 50;
+        const stepHeight = 40;
+        const numberOfSteps = 5;
+         
+        let highestY;
+        
+        // Up Stair with coins
+        for (let i = 0; i < numberOfSteps; i++) {
+            const x = startX + (i * 60);
+            const y = startY - (i * stepHeight);
+            addBlock(x, y, blockWidth-i, blockHeight);
+            
+            // Track the highest point (last Y position)
+            highestY = y; 
+            
+            if (i === numberOfSteps - 1) {
+                addCoin(x + 10, y - 30);
+                addCoin(x + 40, y - 30);
+                addCoin(x + 70, y - 30);
+                addCoin(x + 100, y - 30);
+            } else {
+                addCoin(x + 10, y - 30);
+            }
+        }
+        
+        // Down stair without coins
+        const startX2 = 1350;
+        const startY2 = highestY;
+        
+        for (let i = 0; i < numberOfSteps; i++) {
+            const x = startX2 + (i * 60);
+            const y = startY2 + (i * stepHeight);
+            addBlock(x, y, blockWidth-i, blockHeight);
+        
+            // add coins on the top block
+            if (i === 0) {
+                addCoin(x + 20, y -30);
+                addCoin(x + 50, y - 30);
+                addCoin(x + 80, y - 30);
+                addCoin(x + 110, y - 30);
+            }
+        }
+        
+        //                     speed     x    y          image                w   h   move?   x    y      image        w          h
+        spawnEnemiesAndPipes(undefined,1680, 50, 'assets/images/plane.png', 120, 120, true, undefined, undefined, undefined, undefined, undefined);
+        for (let x = 2100; x <= 2250; x += 50) {
+            spawnEnemiesAndPipes(undefined,x, 470, 'assets/images/fire.gif', 80, 80, false, undefined, undefined, undefined, undefined, undefined);
+        }
+
+        for (let x = 2550; x <= 2750; x += 50) {
+            spawnEnemiesAndPipes(undefined,x, 470, 'assets/images/fire.gif', 80, 80, false, undefined, undefined, undefined, undefined, undefined);
+        }
+
+        for (let x = 3150; x <= 3350; x += 50) {
+            spawnEnemiesAndPipes(undefined,x, 470, 'assets/images/fire.gif', 80, 80, false, undefined, undefined, undefined, undefined, undefined);
+        }
+
+        spawnEnemiesAndPipes(undefined,undefined, undefined, undefined, undefined, undefined, undefined, 3700, 450, 'water.png', 100, 100);
+
+        for (let x = 4000; x <= 4150; x += 50) {
+            spawnEnemiesAndPipes(undefined,x, 470, 'assets/images/fire.gif', 80, 80, false, undefined, undefined, undefined, undefined, undefined);
+        }
+
+        for (let x = 4550; x <= 4750; x += 50) {
+            spawnEnemiesAndPipes(undefined,x, 470, 'assets/images/fire.gif', 80, 80, false, undefined, undefined, undefined, undefined, undefined);
+        }
+
+        spawnEnemiesAndPipes(undefined,undefined, undefined, undefined, undefined, undefined, undefined, 5000, 450, 'water.png', 100, 100);
+
+        spawnEnemiesAndPipes(6,5250, 400, 'assets/images/alion.png', 120, 120, true, undefined, undefined, undefined, undefined, undefined);
+
+        spawnEnemiesAndPipes(undefined,undefined, undefined, undefined, undefined, undefined, undefined, 5400, 450, 'water.png', 100, 100);
+
+        addBlock(5700, 290, 150, 50);
+        addCoin(5720, 260);
+        addCoin(5800, 260);
+        addBlock(5900, 360, 150, 50); 
+        addBlock(6100, 290, 150, 50);
+        addCoin(6120, 260);
+        addCoin(6200, 260);
+        addBlock(6300, 420, 150, 50);
+
+        for (let x = 5550; x <= 6600; x += 50) {
+             spawnEnemiesAndPipes(undefined,x, 470, 'assets/images/fire.gif', 80, 80, false, undefined, undefined, undefined, undefined, undefined);
+        }
+
+        spawnEnemiesAndPipes(undefined,undefined, undefined, undefined, undefined, undefined, undefined, 6700, 250, 'bus.png', 300, 300);
+
+    } else if (level === 1) {
         gameLength =  6000; 
         ///////////////////////add coins/////////////////////////
         for (let x = 1500; x <= 1950; x += 50) {
@@ -604,7 +705,7 @@ function loadLevel() {
         }
         //////////////////add block///////////////////
         //        x      y    w   h
-        addBlock(1000, 500, 200, 50); 
+        addBlock(1000, 500, 200, 50);
         addBlock(1200, 500, 200, 50); 
         addBlock(1900, 500, 200, 50); 
         addBlock(2350, 500, 200, 50);
@@ -636,7 +737,7 @@ function loadLevel() {
     spawnEnemiesAndPipes(undefined,4000, 450, 'assets/images/fire.gif', undefined, undefined, false, undefined, undefined, undefined, undefined, undefined);
     spawnEnemiesAndPipes(undefined,4300, 450, 'assets/images/fire.gif', undefined, undefined, false, undefined, undefined, undefined, undefined, undefined);
         
-    } else if (level === 1) {
+    } else if (level === 2) {
         gameLength =  9000; 
 
 
@@ -678,21 +779,5 @@ function loadLevel() {
         addBlock(6100, 320, 150, 50);
         addBlock(6300, 170, 150, 50);
        
-    } else if (level === 2) {
-        gameLength =  9000;  
-        spawnEnemiesAndPipes(7,1000, 390, 'assets/images/alion3.png', 150, 150, true, undefined, undefined, undefined, undefined, undefined);
-        spawnEnemiesAndPipes(7,1200, 390, 'assets/images/alion3.png', 150, 150, true, undefined, undefined, undefined, undefined, undefined);
-        spawnEnemiesAndPipes(7,1400, 390, 'assets/images/alion3.png', 150, 150, true, undefined, undefined, undefined, undefined, undefined);
-        spawnEnemiesAndPipes(7,1700, 390, 'assets/images/alion3.png', 150, 150, true, undefined, undefined, undefined, undefined, undefined);
-        spawnEnemiesAndPipes(7,2000, 390, 'assets/images/alion3.png', 150, 150, true, undefined, undefined, undefined, undefined, undefined);
-        spawnEnemiesAndPipes(7,2200, 430, 'assets/images/alion3.png', 100, 100, true, undefined, undefined, undefined, undefined, undefined);
-        spawnEnemiesAndPipes(7,2500, 430, 'assets/images/alion3.png', 100, 100, true, undefined, undefined, undefined, undefined, undefined);
-        spawnEnemiesAndPipes(7,3000, 400, 'assets/images/alion3.png', 150, 150, true, undefined, undefined, undefined, undefined, undefined);
-        addBlock(4100, 270, 150, 50); 
-        addBlock(4500, 370, 150, 50); 
-        addBlock(4800, 370, 150, 50);
-        addBlock(4950, 370, 150, 50);
-        addBlock(5200, 200, 150, 50); 
-        
-    }
+    } 
 }

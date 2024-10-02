@@ -45,16 +45,6 @@ loadImages(() => {
 loadSounds();
 
 
-
-///////////////////////Background Sound//////////////////////////////
-function playBackgroundSound() {
-    const bgMusic = assets.sounds.gameSound;
-    bgMusic.loop = true;  // Make the music loop continuously
-    bgMusic.volume = 0.5; // Adjust the volume (50% in this case)
-    bgMusic.play();       // Start the music
-}
-
-
 /////////////////////////////Block///////////////////////////////////
 function generateBlocks() {
     const blockWidth = 200; 
@@ -503,7 +493,6 @@ function gameLoop() {
     checkCoinCollection(); 
     update();
     checkEnemyCollision();
-    playBackgroundSound();
     requestAnimationFrame(gameLoop);
 }
 

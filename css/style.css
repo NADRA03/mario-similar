@@ -39,3 +39,24 @@ body, html {
 #enemy {
     background-image: url('../assets/images/enemy.gif');
 }
+
+#volume {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+
+#volume svg {
+    width: 30px;
+    height: 30px;
+    fill: #fff;
+}

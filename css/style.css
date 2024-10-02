@@ -1,0 +1,41 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+    background: #000;
+}
+
+.main-wrapper {
+    background: #000;
+}
+
+ #gameCanvas {
+    background: #000;
+}  
+
+.character {
+    position: absolute;
+    width: 80px;  
+    height: 80px;  
+    background-size: cover;
+    z-index: 2;
+    pointer-events: none; 
+}
+
+#mario {
+    background-image: url('../assets/images/hero.gif');
+}
+
+#score {
+    position: absolute;
+    top: 10px;  /* Adjust this value to position the score vertically */
+    left: 10px; /* Adjust this value to position the score horizontally */
+    color: #fff; /* Set text color to white */
+    font-size: 24px; /* Adjust font size for better visibility */
+    z-index: 10; 
+}
+
+#enemy {
+    background-image: url('../assets/images/enemy.gif');
+}

@@ -65,32 +65,36 @@ function addBlock(x, y, width, height) {
 
 
 /////////////////////////////Bullet///////////////////////////////////
+
+// Projectile constructor with direction
 function projectile(x, y, d) {
     this.x = x;
     this.y = y;
     this.width = 20; 
-    this.height = 20; 
+    this.height = 20;
     this.speed = 5;
-    this.direction = d; 
+    this.direction = d;
 }
 
+// Shooting projectiles in Mario's current direction
 document.addEventListener('keydown', (e) => {
-    if (e.key === ' ') { 
-        const projectileY = mario.y + mario.height / 2; 
-        console.log(direction)
-        const newProjectile = new projectile(mario.x + mario.width / 2, projectileY, direction);
+    if (e.key === ' ') { // Spacebar to shoot
+        const projectileY = mario.y + mario.height / 2; // Start projectile at Mario's height
+        const newProjectile = new projectile(mario.x + mario.width / 2, projectileY, direction); // Pass Mario's direction
         projectiles.push(newProjectile);
         assets.sounds.shoot.play();
     }
 });
 
+// bullet movement
 function updateProjectiles() {
     projectiles.forEach((projectile, index) => {
-
-        //movement to  right
-        if (projectile.direction === "+"){
-        projectile.x += projectile.speed;     
-        } 
+        // Move bullet in the direction it's fired
+        if (projectile.direction === "+") {
+            projectile.x += projectile.speed; // Move right
+        } else if (projectile.direction === "-") {
+            projectile.x -= projectile.speed; // Move left
+        }
 
         // Check for collisions with enemies
         enemies.forEach((enemy, enemyIndex) => {
@@ -99,42 +103,48 @@ function updateProjectiles() {
                 projectile.y < enemy.y + enemy.height &&
                 projectile.y + projectile.height > enemy.y) {
                 // Collision detected with enemy
-                if (enemy.image !== "assets/images/fire.gif") { // Remove projectile
-                const enemyElement = enemyElements[enemyIndex]; 
-                enemies.splice(enemyIndex, 1); // Remove enemy from array
-                enemyElement.remove(); // Remove enemy from DOM
-                enemyElements.splice(enemyIndex, 1); // Remove element from reference array
+                if (enemy.image !== "assets/images/fire.gif") { // Only remove if not a fire enemy
+                    const enemyElement = enemyElements[enemyIndex];
+                    enemies.splice(enemyIndex, 1); // Remove enemy from array
+                    enemyElement.remove(); // Remove enemy from DOM
+                    enemyElements.splice(enemyIndex, 1); // Remove element from reference array
                 }
-                projectiles.splice(index, 1);
+                projectiles.splice(index, 1); // Remove projectile on hit
                 return; 
             }
         });
-        // bullet cant pass block or pipe 
+
+         // bullet cant pass block or pipe
         blocks.forEach((block, blockIndex) => {
             if (projectile.x < block.x + block.width &&
                 projectile.x + projectile.width > block.x &&
                 projectile.y < block.y + block.height &&
                 projectile.y + projectile.height > block.y) {
-                projectiles.splice(index, 1); // Remove projectile
+                projectiles.splice(index, 1); // Remove projectile on block hit
                 return; 
             }
         });
+
         pipes.forEach((pipe, pipeIndex) => {
             if (projectile.x < pipe.x + pipe.width &&
                 projectile.x + projectile.width > pipe.x &&
                 projectile.y < pipe.y + pipe.height &&
                 projectile.y + projectile.height > pipe.y) {
-                projectiles.splice(index, 1); // Remove projectile
+                projectiles.splice(index, 1); // Remove projectile on pipe hit
                 return; 
             }
         });
-        // Remove projectile if it goes off screen
-        projectiles.forEach((projectile, index) => {
-            projectile.x += projectile.speed; 
-            if (projectile.x > gameLength) { 
-                projectiles.splice(index, 1); 
-            }
-        });
+
+        // Remove projectile if it goes off the screen
+        // projectiles.forEach((projectile, index) => {
+        //     projectile.x += projectile.speed; 
+        //     if (projectile.x > gameLength) { 
+        //         projectiles.splice(index, 1); 
+        //     }
+        // });
+        if (projectile.x > gameLength || projectile.x < 0) {
+            projectiles.splice(index, 1); // Remove projectile
+        }
     });
 }
 

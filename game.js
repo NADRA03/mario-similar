@@ -413,6 +413,8 @@ function update() {
     marioElement.style.top = `${mario.y}px`;
     updateEnemies();
     document.getElementById('score').innerText = `Score: ${score}`;
+    document.getElementById('level').innerText = `Level: ${level}`; 
+    console.log('Level: '+level)
 }
 
 //add enemies and pipes 

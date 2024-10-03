@@ -463,8 +463,13 @@ function checkEnemyCollision() {
                 score = 0;
                 resetGame();
             } else {
-                mario.x = 0;
-                distanceTraveled = 0; 
+                mario.movingRight = false;
+                mario.movingLeft = false;
+                mario.isJumping = false;
+                
+                mario.x = 50;
+                mario.y = 470;
+                distanceTraveled = 0;
             }
         }
     });

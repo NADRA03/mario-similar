@@ -2,7 +2,7 @@ const assets = {
     images: {},
     sounds: {}
 };
-const assetNames = ['block1.png','bullet.png','hero.gif', 'yellowPlane.png','water.png', 'promo2.png', 'promo.png', 'car.png','enemy.gif', 'pipe.png', 'background.png', 'block.png','bus.png', 'gost3.png', 'alion.png', 'alion3.png',];
+const assetNames = ['block1.png','bullet.png','hero.gif', 'yellowPlane.png','water.png', 'promo2.png', 'promo.png', 'car.png','enemy.gif', 'pipe.png', 'background.png', 'block.png','bus.png', 'gost3.png', 'alion.png', 'alion3.png', 'heart.png'];
 
 function loadImages(callback) {
     let loadedCount = 0;

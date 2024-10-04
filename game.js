@@ -7,6 +7,7 @@ let projectiles = [];
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 let cameraOffset = 0;
+let isPaused = false;
 
 // ensure that the game take the whole width
 function resizeCanvas() {
@@ -195,6 +196,20 @@ function drawBackground() {
     ctx.drawImage(friendImage, gameLength - 600 - cameraOffset, 400, 80, 150); 
 }
 
+
+//Render Hearts
+function renderHearts() {
+    const heartsContainer = document.getElementById('hearts');
+    heartsContainer.innerHTML = '';  
+    
+    for (let i = 0; i < lives; i++) {
+        const heartElement = document.createElement('img');
+        heartElement.src = 'assets/images/heart.png';
+        heartElement.alt = 'Heart';  
+        heartElement.classList.add('heart');  
+        heartsContainer.appendChild(heartElement);
+    }
+}
 
 
 
@@ -414,7 +429,7 @@ function update() {
     updateEnemies();
     document.getElementById('score').innerText = `Score: ${score}`;
     document.getElementById('level').innerText = `Level: ${level}`; 
-    console.log('Level: '+level)
+    console.log(`Level: ${level}`)
 }
 
 //add enemies and pipes 
@@ -495,17 +510,22 @@ function resetGame() {
     distanceTraveled = 0;
     blocks.length = 0; 
     loadLevel();
+    renderHearts();
     generateBlocks();
 }
 
 //loop
 function gameLoop() {
+    
+    if (isPaused) return;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     drawBackground();
     drawBlocks();
     drawPipes();
     updateProjectiles(); 
     drawProjectiles(); 
+    renderHearts();
     updateCoins(); 
     checkCoinCollection(); 
     update();
@@ -542,8 +562,22 @@ document.addEventListener('keyup', (e) => {
 });
 
 
+//Handle Restart Btn
+document.getElementById('restartButton').addEventListener('click', () => {
+    resetGame();
+});
 
-
+document.getElementById('pauseButton').addEventListener('click', () => {
+    isPaused = !isPaused;
+    if (isPaused) {
+        document.getElementById('pause').style.display = 'block';
+        document.getElementById('resume').style.display = 'none';
+    } else {
+        document.getElementById('pause').style.display = 'none';
+        document.getElementById('resume').style.display = 'block';
+        gameLoop();
+    }
+});
 
 
 ///////////////////////coins/////////////////////////

@@ -1,6 +1,6 @@
 import { loadImages, loadSounds, getAssets } from './loader.js';
 let score = 0;
-let level = 4; /////////////////////////////////////choose level to code///////////////////////////////////////
+let level = 0; /////////////////////////////////////choose level to code///////////////////////////////////////
 let lives = 3; 
 let direction = "+";
 let projectiles = [];

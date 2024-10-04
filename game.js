@@ -1,6 +1,6 @@
 import { loadImages, loadSounds, getAssets } from './loader.js';
 let score = 0;
-let level = 0; /////////////////////////////////////choose level to code///////////////////////////////////////
+let level = 4; /////////////////////////////////////choose level to code///////////////////////////////////////
 let lives = 3; 
 let direction = "+";
 let projectiles = [];
@@ -944,5 +944,108 @@ function loadLevel() {
        for (let x = 7700; x <= 7800; x += 50) {
            spawnEnemiesAndPipes(undefined,x, 470, 'assets/images/fire.gif', 80, 80, false, undefined, undefined, undefined, undefined, undefined);
        }
+    }else if (level === 4) {
+        gameLength = 9000;
+    
+        spawnEnemiesAndPipes(undefined, undefined, undefined, undefined, undefined, undefined, undefined, 600, 450, 'water.png', 100, 100);
+        spawnEnemiesAndPipes(8, 1600, 210, 'assets/images/plane.png', 120, 120, true, undefined, undefined, undefined, undefined, undefined);
+        spawnEnemiesAndPipes(8, 1500, 420, 'assets/images/alion.png', 120, 120, true, undefined, undefined, undefined, undefined, undefined);
+        spawnEnemiesAndPipes(undefined, undefined, undefined, undefined, undefined, undefined, undefined, 1600, 450, 'water.png', 100, 100);
+        spawnEnemiesAndPipes(8, 1700, 420, 'assets/images/alion.png', 120, 120, true, undefined, undefined, undefined, undefined, undefined);
+    
+        for (let x = 1800; x <= 2000; x += 50) {
+            spawnEnemiesAndPipes(undefined, x, 470, 'assets/images/fire.gif', 80, 80, false, undefined, undefined, undefined, undefined, undefined);
+        }
+    
+        const startX = 2200;
+        const startY = 500;
+        const blockWidth = 170;
+        const blockHeight = 50;
+        const stepHeight = 40;
+        const numberOfSteps = 6; 
+    
+        let highestY;
+    
+
+        for (let i = 0; i < numberOfSteps; i++) {
+            const x = startX + (i * 60);
+            const y = startY - (i * stepHeight);
+            addBlock(x, y, blockWidth - i, blockHeight);
+    
+            highestY = y;
+    
+            if (i === numberOfSteps - 1) {
+                addCoin(x + 10, y - 30);
+                addCoin(x + 40, y - 30);
+                addCoin(x + 70, y - 30);
+                addCoin(x + 100, y - 30);
+            } else {
+                addCoin(x + 10, y - 30);
+            }
+        }
+    
+        const startX2 = 2500;
+        const startY2 = highestY;
+    
+        for (let i = 0; i < numberOfSteps; i++) {
+            const x = startX2 + (i * 60);
+            const y = startY2 + (i * stepHeight);
+            addBlock(x, y, blockWidth - i, blockHeight);
+    
+            spawnEnemiesAndPipes(5, x + 20, y - 50, 'assets/images/alion.png', 120, 120, true, undefined, undefined, undefined, undefined, undefined);
+        }
+    
+        for (let x = 3000; x <= 4000; x += 50) {
+            spawnEnemiesAndPipes(undefined, x, 470, 'assets/images/fire.gif', 80, 80, false, undefined, undefined, undefined, undefined, undefined);
+        }
+    
+        addBlock(2800, 290, 150, 50);
+        addCoin(2820, 260);
+        addCoin(2900, 260);
+        addBlock(3150, 360, 150, 50);
+        addBlock(3500, 290, 150, 50);
+        addCoin(3520, 260);
+        addCoin(3600, 260);
+        addBlock(3750, 420, 150, 50);
+    
+        spawnEnemiesAndPipes(8, 4550, 350, 'assets/images/gost3.png', 120, 120, true, undefined, undefined, undefined, undefined, undefined);
+        spawnEnemiesAndPipes(undefined, undefined, undefined, undefined, undefined, undefined, undefined, 4590, 450, 'water.png', 100, 100);
+        spawnEnemiesAndPipes(undefined, undefined, undefined, undefined, undefined, undefined, undefined, 4700, 350, 'car.png', 200, 200);
+    
+        spawnEnemiesAndPipes(8, 4900, 350, 'assets/images/alion.png', 120, 120, true, undefined, undefined, undefined, undefined, undefined);
+    
+        let startX3 = 5000;
+        let blockWidth3 = 150;
+        let numberOfSteps3 = 6;
+    
+        for (let i = 0; i < numberOfSteps3; i++) {
+            const x = startX3 + (i * 60);
+            const y = startY - (i * stepHeight);
+            addBlock(x, y, blockWidth3 - i, blockHeight);
+    
+            if (i === numberOfSteps3 - 1) {
+                addCoin(x + 10, y - 30);
+                addCoin(x + 40, y - 30);
+                addCoin(x + 70, y - 30);
+                addCoin(x + 100, y - 30);
+            } else {
+                addCoin(x + 10, y - 30);
+            }
+        }
+    
+        spawnEnemiesAndPipes(8, 5800, 220, 'assets/images/alion2.png', 120, 120, true, undefined, undefined, undefined, undefined, undefined);
+        spawnEnemiesAndPipes(8, 6100, 430, 'assets/images/alion3.png', 120, 120, false, undefined, undefined, undefined, undefined, undefined);
+        spawnEnemiesAndPipes(8, 6450, 430, 'assets/images/alion3.png', 120, 120, false, undefined, undefined, undefined, undefined, undefined);
+    
+        for (let x = 6700; x <= 6900; x += 30) {
+            spawnEnemiesAndPipes(undefined, x, 470, 'assets/images/fire.gif', 80, 80, false, undefined, undefined, undefined, undefined, undefined);
+        }
+    
+        for (let x = 7200; x <= 7400; x += 30) {
+            spawnEnemiesAndPipes(undefined, x, 470, 'assets/images/fire.gif', 80, 80, false, undefined, undefined, undefined, undefined, undefined);
+        }
+    ``
+        spawnEnemiesAndPipes(10, 7900, 350, 'assets/images/friend.png', 150, 150, true, undefined, undefined, undefined, undefined, undefined);
     }
+
 }

@@ -187,15 +187,15 @@ function updateProjectiles() {
         });
 
         // Remove projectile if it goes off the screen
-        projectiles.forEach((projectile, index) => {
-            projectile.x += projectile.speed; 
-            if (projectile.x > gameLength) { 
-                projectiles.splice(index, 1); 
-            }
-        });
-        // if (projectile.x > gameLength || projectile.x < 0) {
-        //     projectiles.splice(index, 1); // Remove projectile
-        // }
+        // projectiles.forEach((projectile, index) => {
+        //     projectile.x += projectile.speed; 
+        //     if (projectile.x > gameLength) { 
+        //         projectiles.splice(index, 1); 
+        //     }
+        // });
+        if (projectile.x > gameLength || projectile.x < 0) {
+            projectiles.splice(index, 1); // Remove projectile
+        }
     });
 }
 
@@ -325,63 +325,32 @@ function drawBlocks() {
 
 function drawBackground() {
     // Background
-    let backgroundElement = document.getElementById('background');
-
-    if (!backgroundElement) {
-        backgroundElement = document.createElement('div');
-        backgroundElement.id = 'background';
-        backgroundElement.style.position = 'absolute';
-        backgroundElement.style.width = '100%';
-        backgroundElement.style.height = '100%';
-        backgroundElement.style.backgroundImage = `url('${assets.images['background.png'].src}')`;
-        backgroundElement.style.zIndex = -1;  // Ensure it's behind other elements
-        document.body.appendChild(backgroundElement);
+    const backgroundElement = document.getElementById('background');
+    if (backgroundElement) {
+        // backgroundElement.style.backgroundImage = `url('${assets.images['background.png'].src}')`;
+        backgroundElement.style.zIndex = 1;
     }
 
     // Moon
-    let moonElement = document.getElementById('moon');
-    if (!moonElement) {
-        moonElement = document.createElement('div');
-        moonElement.id = 'moon';
-        moonElement.style.position = 'absolute';
-        moonElement.style.width = '150px';
-        moonElement.style.height = '150px';
-        moonElement.style.backgroundImage = `url('assets/images/moon.png')`;
-        moonElement.style.backgroundSize = 'cover';
-        moonElement.style.left = '600px'; // Set position
-        moonElement.style.top = '20px';   // Set position
-        moonElement.style.opacity = 0.5;   // Set transparency
-        document.body.appendChild(moonElement);
+    const moonElement = document.getElementById('moon');
+    if (moonElement) {
+        moonElement.style.left = '600px';
+        moonElement.style.top = '20px';
+        moonElement.style.opacity = 0.5;
     }
 
     // Bus Stop
-    let busStopElement = document.getElementById('busStop');
-    if (!busStopElement) {
-        busStopElement = document.createElement('div');
-        busStopElement.id = 'busStop';
-        busStopElement.style.position = 'absolute';
-        busStopElement.style.width = '300px';
-        busStopElement.style.height = '200px';
-        busStopElement.style.backgroundImage = `url('assets/images/busStop.png')`;
-        busStopElement.style.backgroundSize = 'cover';
-        busStopElement.style.left = `${50 - cameraOffset}px`; // Update based on cameraOffset
-        busStopElement.style.top = '350px';                  // Set position
-        document.body.appendChild(busStopElement);
+    const busStopElement = document.getElementById('busStop');
+    if (busStopElement) {
+        busStopElement.style.left = `${50 - cameraOffset}px`;
+        busStopElement.style.top = '350px';
     }
 
     // Friend
-    let friendElement = document.getElementById('friend');
-    if (!friendElement) {
-        friendElement = document.createElement('div');
-        friendElement.id = 'friend';
-        friendElement.style.position = 'absolute';
-        friendElement.style.width = '80px';
-        friendElement.style.height = '150px';
-        friendElement.style.backgroundImage = `url('assets/images/friend1.png')`;
-        friendElement.style.backgroundSize = 'cover';
-        friendElement.style.left = `${gameLength - 600 - cameraOffset}px`; // Update based on cameraOffset
-        friendElement.style.top = '400px';                             // Set position
-        document.body.appendChild(friendElement);
+    const friendElement = document.getElementById('friend');
+    if (friendElement) {
+        friendElement.style.left = `${gameLength - 600 - cameraOffset}px`;
+        friendElement.style.top = '400px';
     }
 }
 

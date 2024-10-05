@@ -19,7 +19,7 @@ function loadImages(callback) {
 }
 
 function loadSounds() {
-    assets.sounds.gameSound = new Audio('assets/sounds/game-sound.mp3');
+    // assets.sounds.gameSound = new Audio('assets/sounds/game-sound.mp3');
     assets.sounds.jump = new Audio('assets/sounds/jump.mp3');
     assets.sounds.gameOver = new Audio('assets/sounds/game-over.mp3');
     assets.sounds.win = new Audio('assets/sounds/winner.wav');

@@ -117,3 +117,12 @@ body, html {
     height: 30px;
     margin-right: 5px;
 }
+
+#timer {
+    position: absolute;
+    top: 90px;  
+    left: 10px; 
+    color: #fff; 
+    font-size: 24px; 
+    z-index: 1000; 
+}

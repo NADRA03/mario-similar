@@ -126,3 +126,9 @@ body, html {
     font-size: 24px; 
     z-index: 1000; 
 }
+
+.projectile, .block, .pipe {
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+}

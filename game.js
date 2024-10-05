@@ -4,9 +4,9 @@ let level = 0; /////////////////////////////////////choose level to code////////
 let lives = 3; 
 let direction = "+";
 let projectiles = [];
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
-let cameraOffset = 0;
+// const canvas = document.getElementById('gameCanvas');
+// const ctx = canvas.getContext('2d');
+// let cameraOffset = 0;
 let isPaused = false;
 let isGameOver = false;
 let secondsElapsed = 0;
@@ -16,12 +16,12 @@ let timerInterval;
 
 
 // ensure that the game take the whole width
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
+// function resizeCanvas() {
+//     canvas.width = window.innerWidth;
+//     canvas.height = window.innerHeight;
+// }
 
-resizeCanvas();
+// resizeCanvas();
 
 const marioElement = document.getElementById('mario');
 const enemyElements = [];
@@ -44,12 +44,16 @@ let pipes = [];
 const blocks = [];
 let gameLength =  6000; 
 let distanceTraveled = 0; 
+let cameraOffset = mario.x - window.innerWidth / 2 + mario.width / 2;
+
 loadImages(() => {
     assets = getAssets();
     resetGame();
     gameLoop();
 });
 loadSounds();
+
+
 
 
 //////////////////////////////Timer////////////////////////////////////
@@ -183,15 +187,15 @@ function updateProjectiles() {
         });
 
         // Remove projectile if it goes off the screen
-        // projectiles.forEach((projectile, index) => {
-        //     projectile.x += projectile.speed; 
-        //     if (projectile.x > gameLength) { 
-        //         projectiles.splice(index, 1); 
-        //     }
-        // });
-        if (projectile.x > gameLength || projectile.x < 0) {
-            projectiles.splice(index, 1); // Remove projectile
-        }
+        projectiles.forEach((projectile, index) => {
+            projectile.x += projectile.speed; 
+            if (projectile.x > gameLength) { 
+                projectiles.splice(index, 1); 
+            }
+        });
+        // if (projectile.x > gameLength || projectile.x < 0) {
+        //     projectiles.splice(index, 1); // Remove projectile
+        // }
     });
 }
 
@@ -200,47 +204,188 @@ function updateProjectiles() {
 
 
 ///////////////////////////////////////draw objects that has no html elements//////////////////////////////////////////////
-function drawProjectiles() {
-    ctx.globalAlpha = 1; 
-    projectiles.forEach(projectile => {
-        ctx.drawImage(assets.images['bullet.png'], projectile.x - cameraOffset, projectile.y, projectile.width, projectile.height);
-    });
+// function drawProjectiles() {
+//     ctx.globalAlpha = 1; 
+//     projectiles.forEach(projectile => {
+//         ctx.drawImage(assets.images['bullet.png'], projectile.x - cameraOffset, projectile.y, projectile.width, projectile.height);
+//     });
 
+// }
+
+function drawProjectiles() {
+    projectiles.forEach((projectile, index) => {
+        let projectileElement = document.getElementById(`projectile-${index}`);
+
+        if (!projectileElement) {
+            projectileElement = document.createElement('div');
+            projectileElement.id = `projectile-${index}`;
+            projectileElement.classList.add('projectile');
+            projectileElement.style.backgroundImage = "url('assets/images/bullet.png')";
+            projectileElement.style.position = 'absolute';
+            projectileElement.style.width = projectile.width + 'px';
+            projectileElement.style.height = projectile.height + 'px';
+            document.body.appendChild(projectileElement);
+        }
+
+        // Update projectile position
+        projectileElement.style.left = (projectile.x - cameraOffset) + 'px';
+        projectileElement.style.top = projectile.y + 'px';
+    });
 }
+
+
+// function drawPipes() {
+//     pipes.forEach(pipe => {
+//         ctx.globalAlpha = 1;
+//         ctx.drawImage(assets.images[`${pipe.image}`], pipe.x - cameraOffset, pipe.y, pipe.width, pipe.height);
+//     });
+// }
 
 function drawPipes() {
-    pipes.forEach(pipe => {
-        ctx.globalAlpha = 1;
-        ctx.drawImage(assets.images[`${pipe.image}`], pipe.x - cameraOffset, pipe.y, pipe.width, pipe.height);
+    pipes.forEach((pipe, index) => {
+        let pipeElement = document.getElementById(`pipe-${index}`);
+
+        if (!pipeElement) {
+            pipeElement = document.createElement('div');
+            pipeElement.id = `pipe-${index}`;
+            pipeElement.classList.add('pipe');
+
+            // Use the loaded pipe image from assets
+            if (assets.images[pipe.image]) {
+                pipeElement.style.backgroundImage = `url('${assets.images[pipe.image].src}')`;
+                pipeElement.style.backgroundSize = '100% 100%'; // Ensure the image covers the full div
+                pipeElement.style.backgroundRepeat = 'no-repeat'; // Prevent image repetition
+            } else {
+                console.error(`Image not found: ${pipe.image}`);
+            }
+
+            pipeElement.style.position = 'absolute';
+            pipeElement.style.width = pipe.width + 'px';
+            pipeElement.style.height = pipe.height + 'px';
+            document.body.appendChild(pipeElement);
+        }
+
+        // Update pipe position
+        pipeElement.style.left = (pipe.x - cameraOffset) + 'px';
+        pipeElement.style.top = pipe.y + 'px';
     });
 }
+
+
+
+
+// function drawBlocks() {
+//     blocks.forEach(block => {
+//         ctx.globalAlpha = 1;
+//         // if (level !== 2) {
+//         ctx.drawImage(assets.images['block.png'], block.x - cameraOffset, block.y, block.width, block.height);
+//         // } else {
+//         //     ctx.drawImage(assets.images['block1.png'], block.x - cameraOffset, block.y, block.width, block.height);    
+//         // }
+//     });
+// }
 
 function drawBlocks() {
-    blocks.forEach(block => {
-        ctx.globalAlpha = 1;
-        // if (level !== 2) {
-        ctx.drawImage(assets.images['block.png'], block.x - cameraOffset, block.y, block.width, block.height);
-        // } else {
-        //     ctx.drawImage(assets.images['block1.png'], block.x - cameraOffset, block.y, block.width, block.height);    
-        // }
+    blocks.forEach((block, index) => {
+        let blockElement = document.getElementById(`block-${index}`);
+
+        if (!blockElement) {
+            blockElement = document.createElement('div');
+            blockElement.id = `block-${index}`;
+            blockElement.classList.add('block');
+            blockElement.style.backgroundImage = `url('${assets.images['block.png'].src}')`;
+            blockElement.style.position = 'absolute';
+            blockElement.style.width = block.width + 'px';
+            blockElement.style.height = block.height + 'px';
+            document.body.appendChild(blockElement);
+        }
+
+        // Update block position
+        blockElement.style.left = (block.x - cameraOffset) + 'px';
+        blockElement.style.top = block.y + 'px';
     });
 }
 
+
 //objects can't move
+// function drawBackground() {
+//     ctx.drawImage(assets.images['background.png'], 0, 0, canvas.width, canvas.height);
+//     const moonImage = new Image();
+//     moonImage.src = "assets/images/moon.png"; 
+//     ctx.globalAlpha = 0.5; //transparency
+//     ctx.drawImage(moonImage, 600, 20, 150, 150);
+//     ctx.globalAlpha = 1;
+//     const busStopImage = new Image();
+//     busStopImage.src = "assets/images/busStop.png";
+//     ctx.drawImage(busStopImage, 50 - cameraOffset, 350, 300, 200); 
+//     const friendImage = new Image();
+//     friendImage.src = "assets/images/friend1.png";
+//     ctx.drawImage(friendImage, gameLength - 600 - cameraOffset, 400, 80, 150); 
+// }
+
 function drawBackground() {
-    ctx.drawImage(assets.images['background.png'], 0, 0, canvas.width, canvas.height);
-    const moonImage = new Image();
-    moonImage.src = "assets/images/moon.png"; 
-    ctx.globalAlpha = 0.5; //transparency
-    ctx.drawImage(moonImage, 600, 20, 150, 150);
-    ctx.globalAlpha = 1;
-    const busStopImage = new Image();
-    busStopImage.src = "assets/images/busStop.png";
-    ctx.drawImage(busStopImage, 50 - cameraOffset, 350, 300, 200); 
-    const friendImage = new Image();
-    friendImage.src = "assets/images/friend1.png";
-    ctx.drawImage(friendImage, gameLength - 600 - cameraOffset, 400, 80, 150); 
+    // Background
+    let backgroundElement = document.getElementById('background');
+
+    if (!backgroundElement) {
+        backgroundElement = document.createElement('div');
+        backgroundElement.id = 'background';
+        backgroundElement.style.position = 'absolute';
+        backgroundElement.style.width = '100%';
+        backgroundElement.style.height = '100%';
+        backgroundElement.style.backgroundImage = `url('${assets.images['background.png'].src}')`;
+        backgroundElement.style.zIndex = -1;  // Ensure it's behind other elements
+        document.body.appendChild(backgroundElement);
+    }
+
+    // Moon
+    let moonElement = document.getElementById('moon');
+    if (!moonElement) {
+        moonElement = document.createElement('div');
+        moonElement.id = 'moon';
+        moonElement.style.position = 'absolute';
+        moonElement.style.width = '150px';
+        moonElement.style.height = '150px';
+        moonElement.style.backgroundImage = `url('assets/images/moon.png')`;
+        moonElement.style.backgroundSize = 'cover';
+        moonElement.style.left = '600px'; // Set position
+        moonElement.style.top = '20px';   // Set position
+        moonElement.style.opacity = 0.5;   // Set transparency
+        document.body.appendChild(moonElement);
+    }
+
+    // Bus Stop
+    let busStopElement = document.getElementById('busStop');
+    if (!busStopElement) {
+        busStopElement = document.createElement('div');
+        busStopElement.id = 'busStop';
+        busStopElement.style.position = 'absolute';
+        busStopElement.style.width = '300px';
+        busStopElement.style.height = '200px';
+        busStopElement.style.backgroundImage = `url('assets/images/busStop.png')`;
+        busStopElement.style.backgroundSize = 'cover';
+        busStopElement.style.left = `${50 - cameraOffset}px`; // Update based on cameraOffset
+        busStopElement.style.top = '350px';                  // Set position
+        document.body.appendChild(busStopElement);
+    }
+
+    // Friend
+    let friendElement = document.getElementById('friend');
+    if (!friendElement) {
+        friendElement = document.createElement('div');
+        friendElement.id = 'friend';
+        friendElement.style.position = 'absolute';
+        friendElement.style.width = '80px';
+        friendElement.style.height = '150px';
+        friendElement.style.backgroundImage = `url('assets/images/friend1.png')`;
+        friendElement.style.backgroundSize = 'cover';
+        friendElement.style.left = `${gameLength - 600 - cameraOffset}px`; // Update based on cameraOffset
+        friendElement.style.top = '400px';                             // Set position
+        document.body.appendChild(friendElement);
+    }
 }
+
+
 
 
 //Render Hearts
@@ -264,7 +409,7 @@ function renderHearts() {
 ///////////////////////////////////////update//////////////////////////////////////////////
 function updateEnemies() {
     enemies.forEach((enemy, index) => {
-        if (enemy.x >= cameraOffset && enemy.x <= cameraOffset + canvas.width + 200) {
+        if (enemy.x >= cameraOffset && enemy.x <= cameraOffset + window.innerWidth + 200) {
             if (enemy.image !== 'assets/images/fire.gif' && enemy.image !== 'assets/images/plane.png' && enemy.image !== 'assets/images/alion3.png') {
                 enemy.verticalOffset = Math.sin(Date.now() / 300) * 1; // Moves up and down 
                 enemy.y += enemy.verticalOffset;
@@ -313,7 +458,7 @@ function updateEnemies() {
         if (enemyElements[index]) {
             enemyElements[index].style.left = `${enemy.x - cameraOffset}px`;
             enemyElements[index].style.top = `${enemy.y}px`;
-            if (enemy.x >= cameraOffset && enemy.x <= cameraOffset + canvas.width) {
+            if (enemy.x >= cameraOffset && enemy.x <= cameraOffset + window.innerWidth) {
                 enemyElements[index].style.display = 'block';
             } else {
                 enemyElements[index].style.display = 'none';
@@ -469,7 +614,7 @@ function update() {
 
 
 
-    cameraOffset = mario.x - canvas.width / 2 + mario.width / 2;
+    cameraOffset = mario.x - window.innerWidth / 2 + mario.width / 2;
     marioElement.style.left = `${mario.x - cameraOffset}px`;
     marioElement.style.top = `${mario.y}px`;
     updateEnemies();
@@ -568,23 +713,57 @@ function resetGame() {
 }
 
 //loop
-function gameLoop() {
+// function gameLoop() {
     
+//     if (isPaused) return;
+
+//     ctx.clearRect(0, 0, canvas.width, canvas.height)
+//     drawBackground();
+//     drawBlocks();
+//     drawPipes();
+//     updateProjectiles(); 
+//     drawProjectiles(); 
+//     renderHearts();
+//     updateCoins(); 
+//     checkCoinCollection(); 
+//     update();
+//     checkEnemyCollision();
+//     requestAnimationFrame(gameLoop);
+// }
+
+function gameLoop() {
     if (isPaused) return;
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    drawBackground();
-    drawBlocks();
-    drawPipes();
-    updateProjectiles(); 
-    drawProjectiles(); 
-    renderHearts();
-    updateCoins(); 
-    checkCoinCollection(); 
+    // Clear existing elements (replace clearRect logic)
+    // Optionally remove and recreate elements from previous frames
+    const existingProjectiles = document.querySelectorAll('.projectile');
+    existingProjectiles.forEach(projectile => projectile.remove());
+
+    const existingBlocks = document.querySelectorAll('.block');
+    existingBlocks.forEach(block => block.remove());
+
+    const existingPipes = document.querySelectorAll('.pipe');
+    existingPipes.forEach(pipe => pipe.remove());
+
+    // Redraw background, blocks, pipes, and projectiles
+    drawBackground();  // Handles background using 'div'
+    drawBlocks();      // Handles blocks using 'div'
+    drawPipes();       // Handles pipes using 'div'
+    updateProjectiles(); // Update projectiles (positions, etc.)
+    drawProjectiles();   // Draw projectiles using 'div'
+
+    renderHearts();  // Update hearts
+    updateCoins();   // Update coins
+    checkCoinCollection(); // Check if coins are collected
+
+    // Update character and enemies positions
     update();
     checkEnemyCollision();
+
+    // Request next frame
     requestAnimationFrame(gameLoop);
 }
+
 
 
 //event listener
@@ -672,13 +851,26 @@ function checkCoinCollection() {
 
 
 //Coin view
+// function updateCoins() {
+//     coins.forEach((coin, index) => {
+//         if (coinElements[index]) {
+//             coinElements[index].style.left = `${coin.x - cameraOffset}px`;
+//             coinElements[index].style.top = `${coin.y}px`;
+//             coinElements[index].style.display = 
+//                 (coin.x >= cameraOffset && coin.x <= cameraOffset + canvas.width) ? 'block' : 'none';
+//         }
+//     });
+// }
+
 function updateCoins() {
     coins.forEach((coin, index) => {
         if (coinElements[index]) {
             coinElements[index].style.left = `${coin.x - cameraOffset}px`;
             coinElements[index].style.top = `${coin.y}px`;
+
+            // Check if the coin is within the viewable area, replace canvas.width with window.innerWidth
             coinElements[index].style.display = 
-                (coin.x >= cameraOffset && coin.x <= cameraOffset + canvas.width) ? 'block' : 'none';
+                (coin.x >= cameraOffset && coin.x <= cameraOffset + window.innerWidth) ? 'block' : 'none';
         }
     });
 }

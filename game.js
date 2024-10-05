@@ -1,6 +1,6 @@
 import { loadImages, loadSounds, getAssets } from './loader.js';
 let score = 0;
-let level = 4; /////////////////////////////////////choose level to code///////////////////////////////////////
+let level = 0; /////////////////////////////////////choose level to code///////////////////////////////////////
 let lives = 3; 
 let direction = "+";
 let projectiles = [];
@@ -8,6 +8,12 @@ const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 let cameraOffset = 0;
 let isPaused = false;
+let isGameOver = false;
+let secondsElapsed = 0;
+let isTimerRunning = false; // To track if the timer has started
+const timerElement = document.getElementById('timer');
+let timerInterval;
+
 
 // ensure that the game take the whole width
 function resizeCanvas() {
@@ -46,6 +52,46 @@ loadImages(() => {
 loadSounds();
 
 
+//////////////////////////////Timer////////////////////////////////////
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    const formattedMinutes = String(minutes).padStart(2, '0');
+    const formattedSeconds = String(remainingSeconds).padStart(2, '0');
+    return `${formattedMinutes}:${formattedSeconds}`;
+}
+
+function startTimer() {
+    if (!isTimerRunning) {
+        isTimerRunning = true;
+        timerInterval = setInterval(() => {
+            if (!isPaused) {
+                secondsElapsed++; // Increment by 1 second
+                timerElement.innerText = "Timer: " + formatTime(secondsElapsed);
+            }
+        }, 1000);
+    }
+}
+
+function stopTimer() {
+    clearInterval(timerInterval);
+    isTimerRunning = false;
+}
+
+function resetTimer() {
+    clearInterval(timerInterval);
+    secondsElapsed = 0;
+    timerElement.innerText = "Timer: " + formatTime(secondsElapsed);
+    isTimerRunning = false;
+}
+
+///////////////////// Timer Control via Key Press ///////////////////////
+document.addEventListener('keydown', (event) => {
+    if (!isTimerRunning) {
+        startTimer();
+    }
+});
+
 /////////////////////////////Block///////////////////////////////////
 function generateBlocks() {
     const blockWidth = 200; 
@@ -60,8 +106,6 @@ function generateBlocks() {
 function addBlock(x, y, width, height) {
     blocks.push({ x: x, y: y, width: width, height: height });
 }
-
-
 
 
 
@@ -430,7 +474,7 @@ function update() {
     marioElement.style.top = `${mario.y}px`;
     updateEnemies();
     document.getElementById('score').innerText = `Score: ${score}`;
-    document.getElementById('level').innerText = `Level: ${level}`; 
+    document.getElementById('level').innerText = `Level: ${level+1}`; 
     console.log(`Level: ${level}`)
 }
 
@@ -472,7 +516,7 @@ function checkEnemyCollision() {
             mario.y + 15 < enemy.y + enemy.height - 15) {
             assets.sounds.gameOver.play();
             //reduce lives 
-            lives--; 
+            lives--;
             alert(`You hit an enemy! Lives left: ${lives}`);
             //game over
             if (lives <= 0) {
@@ -480,6 +524,8 @@ function checkEnemyCollision() {
                 level = 0;
                 lives = 3;
                 score = 0;
+                isGameOver = true;
+                resetTimer();
                 resetGame();
             } else {
                 mario.movingRight = false;
@@ -489,6 +535,7 @@ function checkEnemyCollision() {
                 mario.x = 50;
                 mario.y = 470;
                 distanceTraveled = 0;
+                resetTimer();
             }
         }
     });
@@ -514,6 +561,10 @@ function resetGame() {
     loadLevel();
     renderHearts();
     generateBlocks();
+    clearInterval(timerInterval);
+    secondsElapsed = 0;
+    isTimerRunning = false;
+    timerElement.innerText = "Timer: " + formatTime(secondsElapsed);
 }
 
 //loop
@@ -575,10 +626,12 @@ document.getElementById('pauseButton').addEventListener('click', () => {
     if (isPaused) {
         document.getElementById('pause').style.display = 'block';
         document.getElementById('resume').style.display = 'none';
+        stopTimer(); // Pause the timer
     } else {
         document.getElementById('pause').style.display = 'none';
         document.getElementById('resume').style.display = 'block';
         gameLoop();
+        startTimer();
     }
 });
 

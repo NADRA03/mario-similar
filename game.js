@@ -1,6 +1,6 @@
 import { loadImages, loadSounds, getAssets } from './loader.js';
 let score = 0;
-let level = 0; /////////////////////////////////////choose level to code///////////////////////////////////////
+let level = 4; /////////////////////////////////////choose level to code///////////////////////////////////////
 let lives = 3; 
 let direction = "+";
 let projectiles = [];
@@ -79,6 +79,7 @@ function projectile(x, y, d) {
 
 // Shooting projectiles in Mario's current direction
 document.addEventListener('keydown', (e) => {
+    if (isPaused) return;
     if (e.key === ' ') { // Spacebar to shoot
         const projectileY = mario.y + mario.height / 2; // Start projectile at Mario's height
         const newProjectile = new projectile(mario.x + mario.width / 2, projectileY, direction); // Pass Mario's direction
@@ -89,6 +90,7 @@ document.addEventListener('keydown', (e) => {
 
 // bullet movement
 function updateProjectiles() {
+
     projectiles.forEach((projectile, index) => {
         // Move bullet in the direction it's fired
         if (projectile.direction === "+") {
@@ -537,6 +539,7 @@ function gameLoop() {
 //event listener
 // Handle keyboard input
 document.addEventListener('keydown', (e) => {
+    if (isPaused) return;
     if ((e.key === 'ArrowUp' || e.key === 'w') && !mario.isJumping ) {
         mario.dy = -mario.jumpPower;
         mario.isJumping = true;

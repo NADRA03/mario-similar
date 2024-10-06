@@ -71,7 +71,7 @@ function startTimer() {
         timerInterval = setInterval(() => {
             if (!isPaused) {
                 secondsElapsed++; // Increment by 1 second
-                timerElement.innerText = "Timer: " + formatTime(secondsElapsed);
+                timerElement.innerText = "Timer : " + formatTime(secondsElapsed);
             }
         }, 1000);
     }
@@ -85,7 +85,7 @@ function stopTimer() {
 function resetTimer() {
     clearInterval(timerInterval);
     secondsElapsed = 0;
-    timerElement.innerText = "Timer: " + formatTime(secondsElapsed);
+    timerElement.innerText = "Timer : " + formatTime(secondsElapsed);
     isTimerRunning = false;
 }
 
@@ -334,7 +334,7 @@ function drawBackground() {
     // Moon
     const moonElement = document.getElementById('moon');
     if (moonElement) {
-        moonElement.style.left = '600px';
+        moonElement.style.left = '1000px';
         moonElement.style.top = '20px';
         moonElement.style.opacity = 0.5;
     }
@@ -587,8 +587,8 @@ function update() {
     marioElement.style.left = `${mario.x - cameraOffset}px`;
     marioElement.style.top = `${mario.y}px`;
     updateEnemies();
-    document.getElementById('score').innerText = `Score: ${score}`;
-    document.getElementById('level').innerText = `Level: ${level+1}`; 
+    document.getElementById('score').innerText = `Score : ${score}`;
+    document.getElementById('level').innerText = `Level : ${level+1}`; 
     console.log(`Level: ${level}`)
 }
 
@@ -631,16 +631,16 @@ function checkEnemyCollision() {
             assets.sounds.gameOver.play();
             //reduce lives 
             lives--;
-            alert(`You hit an enemy! Lives left: ${lives}`);
             //game over
             if (lives <= 0) {
-                alert("Game Over! Returning to level 1.");
                 level = 0;
                 lives = 3;
                 score = 0;
                 isGameOver = true;
                 resetTimer();
                 resetGame();
+
+                window.location.href = "/";
             } else {
                 mario.movingRight = false;
                 mario.movingLeft = false;
@@ -678,7 +678,7 @@ function resetGame() {
     clearInterval(timerInterval);
     secondsElapsed = 0;
     isTimerRunning = false;
-    timerElement.innerText = "Timer: " + formatTime(secondsElapsed);
+    timerElement.innerText = "Timer : " + formatTime(secondsElapsed);
 }
 
 //loop
@@ -942,7 +942,7 @@ function loadLevel() {
              spawnEnemiesAndPipes(undefined,x, 470, 'assets/images/fire.gif', 80, 80, false, undefined, undefined, undefined, undefined, undefined);
         }
 
-        spawnEnemiesAndPipes(undefined,undefined, undefined, undefined, undefined, undefined, undefined, 6700, 250, 'bus.png', 300, 300);
+        spawnEnemiesAndPipes(undefined,undefined, undefined, undefined, undefined, undefined, undefined, 6700, 400, 'bus.png', 300, 150);
 
     } else if (level === 1) {
         gameLength =  6000; 

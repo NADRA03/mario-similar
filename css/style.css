@@ -1,4 +1,10 @@
+@font-face {
+    font-family: 'Minecraft Regular';
+    src: url('../assets/fonts/Minecraft Regular.otf') format('truetype');
+}
+
 body, html {
+    font-family: 'Minecraft Regular', sans-serif;
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -28,20 +34,21 @@ body, html {
 }
 
 #score {
+    font-family: 'Minecraft Regular', sans-serif;
     position: absolute;
-    top: 10px;  /* Adjust this value to position the score vertically */
+    top: 20px;  /* Adjust this value to position the score vertically */
     left: 10px; /* Adjust this value to position the score horizontally */
     color: #fff; /* Set text color to white */
-    font-size: 24px; /* Adjust font size for better visibility */
+    font-size: 20px; /* Adjust font size for better visibility */
     z-index: 10; 
 }
 
 #level {
     position: absolute;
-    top: 35px;  
+    top: 55px;  
     left: 10px; 
     color: #fff; 
-    font-size: 24px; 
+    font-size: 20px; 
     z-index: 10; 
 }
 
@@ -50,9 +57,9 @@ body, html {
 }
 
 #controls {
-    position: absolute;
+    position: fixed;
     top: 10px;
-    right: 10px;
+    right: 5px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -67,22 +74,22 @@ body, html {
 #volume,
 #restartButton,
 #pauseButton {
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 50%;
     cursor: pointer;
     transition: transform 0.2s, background 0.3s;
-    background: rgba(255, 255, 255, 0.1); 
+    background: none; 
 }
 
 #volume:hover,
 #restartButton:hover,
 #pauseButton:hover {
     transform: scale(1.1);
-    background: rgba(255, 255, 255, 0.2); 
+    background: none; 
 }
 
 #volume svg,
@@ -92,6 +99,18 @@ body, html {
     height: 30px;
     fill: #f7f7f7;
 }
+
+#volume img,
+#restartButton img,
+#pauseButton img {
+    width: 30px;
+    height: 30px;
+}
+
+#pause {
+    width: 15px
+}
+
 
 #restartButton {
     margin-top: 5px;
@@ -107,8 +126,8 @@ body, html {
 
 #hearts {
     position: absolute;
-    top: 60px; 
-    left: 10px;
+    top: 20px; 
+    left: 600px;
     z-index: 1000;
 }
 
@@ -123,7 +142,7 @@ body, html {
     top: 90px;  
     left: 10px; 
     color: #fff; 
-    font-size: 24px; 
+    font-size: 20px; 
     z-index: 1000; 
 }
 
@@ -138,6 +157,8 @@ body, html {
     width: 1280px;
     height: 720px;
     overflow: hidden;
+    font-family: 'Minecraft Regular', sans-serif;
+    font-size: 15px;
 }
 
 .background {

@@ -766,6 +766,12 @@ document.addEventListener('keyup', (e) => {
 
 //Handle Restart Btn
 document.getElementById('restartButton').addEventListener('click', () => {
+    if (isPaused ){
+        isPaused = false;
+        document.getElementById('pause').style.display = 'none';
+        document.getElementById('resume').style.display = 'block';
+        gameLoop();
+    }
     resetGame();
 });
 
@@ -1261,8 +1267,6 @@ function loadLevel() {
         for (let x = 7200; x <= 7400; x += 30) {
             spawnEnemiesAndPipes(undefined, x, 470, 'assets/images/fire.gif', 80, 80, false, undefined, undefined, undefined, undefined, undefined);
         }
-    ``
-        spawnEnemiesAndPipes(10, 7900, 350, 'assets/images/friend.png', 150, 150, true, undefined, undefined, undefined, undefined, undefined);
     }
 
 }

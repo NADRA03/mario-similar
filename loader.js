@@ -20,11 +20,11 @@ function loadImages(callback) {
 
 function loadSounds() {
     // assets.sounds.gameSound = new Audio('assets/sounds/game-sound.mp3');
-    assets.sounds.jump = new Audio('assets/sounds/jump.mp3');
-    assets.sounds.gameOver = new Audio('assets/sounds/game-over.mp3');
-    assets.sounds.win = new Audio('assets/sounds/winner.wav');
-    assets.sounds.coin = new Audio('assets/sounds/coin.mp3');
-    assets.sounds.shoot = new Audio('assets/sounds/shoot.mp3');
+    // assets.sounds.jump = new Audio('assets/sounds/jump.mp3');
+    // assets.sounds.gameOver = new Audio('assets/sounds/game-over.mp3');
+    // assets.sounds.win = new Audio('assets/sounds/winner.wav');
+    // assets.sounds.coin = new Audio('assets/sounds/coin.mp3');
+    // assets.sounds.shoot = new Audio('assets/sounds/shoot.mp3');
 }
 
 function getAssets() {

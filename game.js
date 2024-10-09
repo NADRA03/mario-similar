@@ -132,7 +132,7 @@ document.addEventListener('keydown', (e) => {
         const projectileY = mario.y + mario.height / 2; // Start projectile at Mario's height
         const newProjectile = new projectile(mario.x + mario.width / 2, projectileY, direction); // Pass Mario's direction
         projectiles.push(newProjectile);
-        assets.sounds.shoot.play();
+        // assets.sounds.shoot.play();
     }
 });
 
@@ -533,7 +533,7 @@ function update() {
         if (canMoveRight ) {
             if (mario.x >= gameLength - mario.width - 500) {
                 level++;
-                assets.sounds.win.play();
+                // assets.sounds.win.play();
                 resetGame();
             }
             document.getElementById('mario').style.backgroundImage = "url('../assets/images/hero.gif')";
@@ -628,7 +628,7 @@ function checkEnemyCollision() {
             mario.x + 15 < enemy.x + enemy.width - 15  &&
             mario.y + mario.height - 15 > enemy.y + 15 &&
             mario.y + 15 < enemy.y + enemy.height - 15) {
-            assets.sounds.gameOver.play();
+            // assets.sounds.gameOver.play();
             //reduce lives 
             lives--
             //game over
@@ -745,7 +745,7 @@ document.addEventListener('keydown', (e) => {
     if ((e.key === 'ArrowUp' || e.key === 'w') && !mario.isJumping ) {
         mario.dy = -mario.jumpPower;
         mario.isJumping = true;
-        assets.sounds.jump.play();
+        // assets.sounds.jump.play();
     } else if (e.key === 'ArrowRight' || e.key === 'd') {
         mario.movingRight = true; 
         direction = "+";
@@ -769,6 +769,12 @@ document.addEventListener('keyup', (e) => {
 
 //Handle Restart Btn
 document.getElementById('restartButton').addEventListener('click', () => {
+    if (isPaused ){
+        isPaused = false;
+        document.getElementById('pause').style.display = 'none';
+        document.getElementById('resume').style.display = 'block';
+        gameLoop();
+    }
     resetGame();
 });
 
@@ -811,7 +817,7 @@ function checkCoinCollection() {
             mario.x < coin.x + coin.width &&
             mario.y + mario.height > coin.y &&
             mario.y < coin.y + coin.height) {
-            assets.sounds.coin.play();
+            // assets.sounds.coin.play();
             score++;
             coins.splice(index, 1); 
             coinElements[index].remove(); // Remove coin element from the DOM
@@ -1264,8 +1270,6 @@ function loadLevel() {
         for (let x = 7200; x <= 7400; x += 30) {
             spawnEnemiesAndPipes(undefined, x, 470, 'assets/images/fire.gif', 80, 80, false, undefined, undefined, undefined, undefined, undefined);
         }
-    ``
-        spawnEnemiesAndPipes(10, 7900, 350, 'assets/images/friend.png', 150, 150, true, undefined, undefined, undefined, undefined, undefined);
     }
 
 }

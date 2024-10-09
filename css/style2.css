@@ -20,6 +20,7 @@ h1 {
 }
 
 h1 img{
+    z-index: 100;
     width: 500px;
 }
 
@@ -77,7 +78,7 @@ p {
   }
 
 #startButton:hover {
-    transform: scale(1.4);
+    transform: scale(1.1);
 }
 
 

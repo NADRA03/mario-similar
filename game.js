@@ -630,8 +630,9 @@ function checkEnemyCollision() {
             mario.y + 15 < enemy.y + enemy.height - 15) {
             assets.sounds.gameOver.play();
             //reduce lives 
-            lives--;
+            lives--
             //game over
+            // setTimeout(() => {
             if (lives <= 0) {
                 level = 0;
                 lives = 3;
@@ -651,7 +652,9 @@ function checkEnemyCollision() {
                 distanceTraveled = 0;
                 resetTimer();
             }
-        }
+
+            
+        } 
     });
 }
 

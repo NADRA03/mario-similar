@@ -45,7 +45,7 @@ mario-similar/
 
 1. Clone or download this repo.
 2. Open `index.html` in your browser (no build tools or server needed).
-3. Great Option: 
+3. Great Option: python -m http.server 8000
 
 > ⚠️ Make sure all related files (`.js`, `/assets`, `/css`) are in the same folder hierarchy as shown.
 
@@ -56,7 +56,10 @@ mario-similar/
 
 ## Preview
 
-> *(Add a screenshot or gameplay GIF here if available)*
+![view1](./readme/1.png)
+![view2](./readme/2.png)
+![view3](./readme/3.png)
+![view4](./readme/4.png)
 
 ---
 
